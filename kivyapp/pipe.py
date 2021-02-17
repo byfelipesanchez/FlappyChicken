@@ -4,15 +4,16 @@ from kivy.uix.image import Image
 from kivy.clock import Clock
 
 class Pipe(Widget):
+    # Numeric attributes
     gap_size = NumericProperty(100)
-    cap_size = NumericProperty(20) #height of the cap of the pipe
+    cap_size = NumericProperty(20) # Height of pipe_cap.png
     pipe_center = NumericProperty(0)
     bottom_body_pos = NumericProperty(0)
     bottom_cap_pos = NumericProperty(0)
     top_body_pos = NumericProperty(0)
     top_cap_pos = NumericProperty(0)
 
-    #texturing
+    # Texture
     pipe_body_texture = ObjectProperty(None)
     lower_pipe_coords = ListProperty((0, 0, 1, 0, 1, 1, 0, 1))
     top_pipe_coords = ListProperty((0, 0, 1, 0, 1, 1, 0, 1))

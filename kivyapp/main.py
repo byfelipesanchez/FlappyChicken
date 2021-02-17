@@ -14,7 +14,7 @@ class Background(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        #creating textures (moving images)
+        # Create textures
         self.cloud_texture = Image(source="cloud.png").texture
         self.cloud_texture.wrap = 'repeat'
         self.cloud_texture.uvsize = (Window.width / self.cloud_texture.width, -1) #defines size of image before its repeated ('1: invertes it')
@@ -28,11 +28,11 @@ class Background(Widget):
         self.floor_texture.uvsize = (self.width / self.floor_texture.width, -1)
 
     def textures(self, time_passed):
-        #update uvpos of textures
+        # update the uvpos of the texture
         self.cloud_texture.uvpos = ( (self.cloud_texture.uvpos[0] + time_passed/2.0)%Window.width , self.cloud_texture.uvpos[1])
         self.floor_texture.uvpos = ( (self.floor_texture.uvpos[0] + time_passed)%Window.width, self.floor_texture.uvpos[1])
 
-        #redraw textures
+        # Redraw the texture
         texture = self.property('cloud_texture') #reference cloud texture
         texture.dispatch(self) #'telling' background to redraw texture
 
@@ -42,7 +42,7 @@ class Background(Widget):
 from random import randint
 from kivy.properties import NumericProperty
 
-class Bird(Image): #moving bird (chicken lol)
+class Bird(Image):
     velocity = NumericProperty(0)
 
     def on_touch_down(self, touch):
@@ -72,27 +72,27 @@ class MainApp(App):
 
     def check_collision(self):
         bird = self.root.ids.bird
-        #check if any of the pipes collides (touches the end of the screen)
+        # Go through each pipe and check if it collides
         new_collision = False
         for pipe in self.pipes:
             if pipe.collide_widget(bird):
                 new_collision = True
-                #check if bird is between pipe gap
+                # Check if bird is between the gap
                 if bird.y < (pipe.pipe_center - pipe.gap_size/2.0):
                     self.game_over()
                 if bird.top > (pipe.pipe_center + pipe.gap_size/2.0):
                     self.game_over()
-        if bird.y < 96: #if bird touches the ground
+        if bird.y < 96:
             self.game_over()
-        if bird.top > Window.height: #if birds touches the top of the screen
+        if bird.top > Window.height:
             self.game_over()
 
         if self.previous_collision and not new_collision:
-            self.root.ids.score.text = str(int(self.root.ids.score.text)+1) #adding score
+            self.root.ids.score.text = str(int(self.root.ids.score.text)+1)
         self.previous_collision = new_collision
 
     def game_over(self):
-        self.root.ids.bird.pos = (20, (self.root.height - 96) / 2.0) #redifining bird position
+        self.root.ids.bird.pos = (20, (self.root.height - 96) / 2.0)
         for pipe in self.pipes:
             self.root.remove_widget(pipe)
         self.frames.cancel()
@@ -112,12 +112,12 @@ class MainApp(App):
         #Clock.schedule_interval(self.move_bird, 1/60.)
         self.frames = Clock.schedule_interval(self.next_frame, 1/60.)
 
-        #initializating pipes
+        # Create the pipes
         num_pipes = 5
         distance_between_pipes = Window.width / (num_pipes - 1)
         for i in range(num_pipes):
             pipe = Pipe()
-            pipe.pipe_center = randint(96 + 100, self.root.height - 100) #defining a random position for each pipe
+            pipe.pipe_center = randint(96 + 100, self.root.height - 100)
             pipe.size_hint = (None, None)
             pipe.pos = (Window.width + i*distance_between_pipes, 96)
             pipe.size = (64, self.root.height - 96)
@@ -125,14 +125,15 @@ class MainApp(App):
             self.pipes.append(pipe)
             self.root.add_widget(pipe)
 
+        # Move the pipes
         #Clock.schedule_interval(self.move_pipes, 1/60.)
 
     def move_pipes(self, time_passed):
-        #move pipes
+        # Move pipes
         for pipe in self.pipes:
             pipe.x -= time_passed * 100
 
-        #check pipe hits the right end of screen and needs repositioning
+        # Check if we need to reposition the pipe at the right side
         num_pipes = 5
         distance_between_pipes = Window.width / (num_pipes - 1)
         pipe_xs = list(map(lambda pipe: pipe.x, self.pipes))

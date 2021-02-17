@@ -6,19 +6,19 @@
 
     canvas.before:
         Rectangle:
-            #bottom pipe body
+            # Bottom pipe body
             size: 48, self.bottom_cap_pos - self.bottom_body_pos
             pos: self.pos[0] + (64 - 48)/2.0, self.bottom_body_pos
             texture: self.pipe_body_texture
             tex_coords: self.lower_pipe_coords
         Rectangle:
-            #bottom pipe cap
+            # Bottom pipe cap
             size: 64, self.cap_size
             pos: self.pos[0], self.bottom_cap_pos
             source: "pipe_cap.png"
 
         Rectangle:
-            #top pipe cap
+            # Top pipe cap
             size: 64, self.cap_size
             pos: self.pos[0], self.top_cap_pos
             source: "pipe_cap.png"
