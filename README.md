@@ -1,5 +1,6 @@
 # flappybird
 basically flappy bird but made with [Kivy](https://github.com/kivy/kivy)<br>
+found the assets somewhere on the internet
 also, o drew the chicken bird character thingy on paint so don't judge me lol
 
 
